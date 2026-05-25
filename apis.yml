@@ -1,0 +1,92 @@
+aid: izotope
+name: iZotope
+description: >-
+  iZotope is a Cambridge, Massachusetts audio software company founded in 2001
+  that builds professional plugins for music production, audio repair, mixing,
+  and mastering, with deep investments in AI-assisted and machine-learning-driven
+  audio processing. Its flagship products include RX (audio restoration and
+  dialogue repair widely used in film, TV, and podcast post-production), Ozone
+  (mastering suite with Master Assistant), Neutron (mixing suite with Mix
+  Assistant and Track Assistant), Nectar (vocal processing with Vocal
+  Assistant), Tonal Balance Control (cross-session referencing), and the Music
+  Production Suite bundle. iZotope's assistive technologies analyze incoming
+  audio and propose starting-point chains, EQ curves, dynamics settings, and
+  spectral repairs — historically among the first widely adopted AI features in
+  the professional audio plugin market. iZotope was acquired by Native
+  Instruments in 2024 and now sits inside Soundwide, the Francisco Partners-
+  backed group that also includes Native Instruments, Plugin Alliance, Brainworx,
+  iZotope, and others. Distribution is via desktop plugin formats (VST3,
+  AudioUnit, AAX) for DAWs such as Pro Tools, Logic, Ableton Live, Cubase,
+  Studio One, and Reaper; there is no public REST/HTTP developer API or SaaS
+  developer platform. iZotope does license its DSP and ML-based audio
+  algorithms to OEM partners as embedded SDKs (historically delivered to
+  partners like Sony, Adobe, and Microsoft) and ships a small set of public
+  GitHub repositories that are primarily internal C++/Lua tooling, embedded
+  Linux Yocto layers for iZotope hardware, and accompanying code for academic
+  audio research papers rather than a developer API surface.
+type: Index
+position: Provider
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Audio
+  - Audio Software
+  - Music Production
+  - Mixing
+  - Mastering
+  - Audio Restoration
+  - Audio Repair
+  - Post Production
+  - Plugins
+  - VST
+  - AudioUnit
+  - AAX
+  - DSP
+  - AI Audio
+  - Machine Learning Audio
+  - Vocal Processing
+  - Native Instruments
+  - Soundwide
+url: https://raw.githubusercontent.com/api-evangelist/izotope/refs/heads/main/apis.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.20'
+apis: []
+common:
+  - type: Website
+    url: https://www.izotope.com
+  - type: Products
+    url: https://www.izotope.com/en/products.html
+  - type: RX
+    url: https://www.izotope.com/en/products/rx.html
+  - type: Ozone
+    url: https://www.izotope.com/en/products/ozone.html
+  - type: Neutron
+    url: https://www.izotope.com/en/products/neutron.html
+  - type: Nectar
+    url: https://www.izotope.com/en/products/nectar.html
+  - type: MusicProductionSuite
+    url: https://www.izotope.com/en/products/music-production-suite.html
+  - type: Learn
+    url: https://www.izotope.com/en/learn.html
+  - type: Blog
+    url: https://www.izotope.com/en/learn/blog.html
+  - type: Support
+    url: https://support.izotope.com/hc/en-us
+  - type: Contact
+    url: https://support.izotope.com/hc/en-us/requests/new
+  - type: About
+    url: https://www.izotope.com/en/about-us.html
+  - type: ParentCompany
+    url: https://www.native-instruments.com
+  - type: GroupOwner
+    url: https://www.soundwide.com
+  - type: GitHub
+    url: https://github.com/izotope
+  - type: YouTube
+    url: https://www.youtube.com/@izotopeinc
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/izotope
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
