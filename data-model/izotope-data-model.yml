@@ -1,0 +1,87 @@
+generated: '2026-08-12'
+method: derived
+source: mcp/izotope-mcp-tools.json
+note: >-
+  Derived from the 13 live MCP tool inputSchemas captured from
+  https://www.izotope.com/api/ucp/mcp — there is no OpenAPI to derive from, so
+  the entity graph is read from JSON Schema 2020-12 object nesting and the
+  documented id-reference fields. Only entities and fields that appear in the
+  captured schemas are recorded.
+id_format:
+  style: Shopify Global ID (GID) URI
+  pattern: 'gid://shopify/{Type}/{id}'
+  examples:
+    - 'gid://shopify/Checkout/abc123'
+    - 'gid://shopify/Order/123'
+entity_count: 10
+entities:
+  - name: Product
+    tools: [get_product, search_catalog, lookup_catalog]
+    id_field: catalog.id
+    fields: ['selected[]', 'preferences[]', filters.categories, filters.price.min, filters.price.max, filters.available]
+    note: prices are integers in ISO 4217 minor units
+  - name: ProductVariant
+    tools: [create_cart, update_cart, create_checkout, update_checkout, get_product]
+    id_field: line_items[].item.id
+    note: '"The Product Variant ID to add or update" — the id a line item points at'
+  - name: LineItem
+    tools: [create_cart, update_cart, create_checkout, update_checkout]
+    id_field: line_items[].id
+    fields: [quantity, item.id]
+  - name: Cart
+    tools: [create_cart, get_cart, update_cart, cancel_cart]
+    id_field: id
+    fields: ['line_items[]', buyer, context, attribution, fulfillment, discounts]
+  - name: Checkout
+    tools: [create_checkout, get_checkout, update_checkout, complete_checkout, cancel_checkout]
+    id_field: id
+    fields: [cart_id, 'line_items[]', buyer, context, attribution, fulfillment, discounts, payment]
+  - name: Order
+    tools: [get_order]
+    id_field: id
+    note: returned by complete_checkout as order ID plus a Thank You Page URL
+  - name: Buyer
+    tools: [create_cart, create_checkout, update_cart, update_checkout]
+    fields: [email, phone_number]
+  - name: PaymentInstrument
+    tools: [create_checkout, update_checkout, complete_checkout]
+    id_field: payment.instruments[].id
+    fields: [handler_id, type, billing_address, credential, display, selected]
+    note: type is 'card' for cards, 'token' for wallet payments (Google Pay, Apple Pay)
+  - name: FulfillmentMethod
+    tools: [create_cart, create_checkout, update_cart, update_checkout]
+    fields: [type, 'line_item_ids[]', selected_destination_id, 'destinations[]', 'groups[]']
+  - name: Discount
+    tools: [create_cart, create_checkout, update_cart, update_checkout]
+    fields: ['codes[]']
+    note: codes are case-insensitive and replace previously submitted codes
+relationships:
+  - {from: Cart, to: LineItem, kind: has_many, via: line_items}
+  - {from: Checkout, to: LineItem, kind: has_many, via: line_items}
+  - {from: Checkout, to: Cart, kind: belongs_to, via: cart_id}
+  - {from: LineItem, to: ProductVariant, kind: belongs_to, via: item.id}
+  - {from: ProductVariant, to: Product, kind: belongs_to, via: catalog.id}
+  - {from: Cart, to: Buyer, kind: has_one, via: buyer}
+  - {from: Checkout, to: Buyer, kind: has_one, via: buyer}
+  - {from: Checkout, to: PaymentInstrument, kind: has_many, via: payment.instruments}
+  - {from: PaymentInstrument, to: PaymentHandler, kind: belongs_to, via: handler_id}
+  - {from: Cart, to: FulfillmentMethod, kind: has_many, via: fulfillment.methods}
+  - {from: Checkout, to: FulfillmentMethod, kind: has_many, via: fulfillment.methods}
+  - {from: FulfillmentMethod, to: LineItem, kind: has_many, via: line_item_ids}
+  - {from: Cart, to: Discount, kind: has_one, via: discounts}
+  - {from: Checkout, to: Discount, kind: has_one, via: discounts}
+  - {from: Checkout, to: Order, kind: has_one, via: complete_checkout result}
+shared_value_objects:
+  - name: BuyerContext
+    on: [cart.context, checkout.context, catalog.context]
+    fields: [address_country, address_region, postal_code, language, currency, intent, eligibility]
+  - name: Attribution
+    on: [cart.attribution, checkout.attribution]
+    fields: [referring_domain, click_id_tag, click_id_value, activity_id_tag, activity_id_value, utm_campaign, utm_source, utm_medium, utm_content, utm_term]
+  - name: AgentMeta
+    on: all 13 tools
+    fields: ['ucp-agent.profile', 'idempotency-key (complete_checkout only)']
+payment_handlers:
+  - {id: gpay, family: com.google.pay, merchant_name: iZotope, merchant_origin: www.izotope.com}
+  - {id: shopify.card, family: dev.shopify.card, card_brands: [visa, master, american_express, discover, diners_club]}
+render: null

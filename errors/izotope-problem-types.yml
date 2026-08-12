@@ -1,0 +1,50 @@
+generated: '2026-08-12'
+method: probed
+source: https://www.izotope.com/api/ucp/mcp
+format: jsonrpc-2.0
+note: >-
+  iZotope publishes no error reference and no OpenAPI, so there are no 4xx/5xx
+  response schemas to derive from. The entries below are limited to error
+  shapes actually observed against the live endpoint plus the one failure mode
+  iZotope documents in its own llms.txt. No error codes are invented.
+envelope:
+  shape: '{"jsonrpc":"2.0","id":<n>,"error":{"code":<int>,"message":<string>,"data":<object>}}'
+  fields:
+    - {name: code, type: integer, description: JSON-RPC or UCP-specific error code}
+    - {name: message, type: string, description: human-readable summary}
+    - {name: data.code, type: string, description: machine-readable UCP error slug}
+    - {name: data.content, type: string, description: detail explaining the failure}
+    - {name: data.continue_url, type: string, description: URL a human can open to continue in the storefront}
+  problem_json: false
+problem_count: 2
+problems:
+  - code: -32001
+    slug: invalid_profile_url
+    title: UCP discovery failed
+    observed_message: UCP discovery failed
+    observed_data:
+      code: invalid_profile_url
+      content: 'Unable to fetch agent profile: Missing profile uri'
+      continue_url: https://izotope-prod.myshopify.com/
+    cause: >-
+      The request omitted meta.ucp-agent.profile, or the profile URI could not
+      be fetched. Every tool call requires an agent profile URI.
+    remediation: >-
+      Publish a reachable UCP agent profile and pass its URI as
+      meta.ucp-agent.profile on every tool call.
+    source_operation: resources/list (observed); applies to all tool calls
+    method: probed
+    x-evidence: {fetched: '2026-08-12', http_status: 200, jsonrpc_error: true}
+  - status: 429
+    slug: rate-limited
+    title: Too Many Requests
+    cause: Per-IP rate limit on the UCP MCP endpoint exceeded.
+    remediation: Back off and retry; no Retry-After or rate-limit headers are published.
+    source: https://www.izotope.com/llms.txt
+    method: searched
+gaps:
+  - No published error reference, error-code registry, or problem-type namespace.
+  - No RFC 9457 application/problem+json anywhere on the surface.
+  - >-
+    Checkout, cart and payment failure codes are not published; they are only
+    discoverable by attempting a real transaction, which this pipeline does not do.

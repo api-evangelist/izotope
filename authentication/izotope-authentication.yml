@@ -1,0 +1,67 @@
+generated: '2026-08-12'
+method: probed
+source: https://www.izotope.com/.well-known/openid-configuration
+docs: https://www.izotope.com/llms.txt
+note: >-
+  iZotope publishes no OpenAPI, so this profile is not derived from
+  securitySchemes. It is read from the live OIDC / OAuth discovery documents
+  iZotope serves on its own hosts (www.izotope.com and account.izotope.com),
+  plus the anonymous-access behaviour observed on the UCP MCP endpoint.
+summary:
+  types: [oauth2, openIdConnect]
+  api_key_in: []
+  oauth2_flows: [authorizationCode]
+  anonymous_surfaces:
+    - https://www.izotope.com/api/ucp/mcp (tools/list and catalog reads require no token)
+    - https://www.izotope.com/products.json (public storefront product JSON)
+schemes:
+  - name: izotope-customer-accounts
+    type: openIdConnect
+    openIdConnectUrl: https://www.izotope.com/.well-known/openid-configuration
+    issuer: https://shopify.com/authentication/73782919339
+    authorization_endpoint: https://account.izotope.com/authentication/oauth/authorize
+    token_endpoint: https://account.izotope.com/authentication/oauth/token
+    end_session_endpoint: https://account.izotope.com/authentication/logout
+    jwks_uri: https://account.izotope.com/authentication/.well-known/jwks.json
+    response_types_supported: [code]
+    grant_types_supported:
+      - authorization_code
+      - refresh_token
+      - 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+    token_endpoint_auth_methods_supported: [client_secret_basic]
+    code_challenge_methods_supported: [S256]
+    id_token_signing_alg_values_supported: [RS256]
+    subject_types_supported: [public]
+    claims_supported: [iss, sub, aud, exp, iat, nonce, sid, email, email_verified]
+    scopes_supported:
+      - openid
+      - email
+      - 'customer-account-api:full'
+      - 'customer-account-mcp-api:full'
+    sources:
+      - well-known/izotope-openid-configuration.json
+      - well-known/izotope-oauth-authorization-server.json
+protected_resource:
+  spec: RFC 9728 OAuth 2.0 Protected Resource Metadata
+  url: https://www.izotope.com/.well-known/oauth-protected-resource
+  resource: https://www.izotope.com
+  authorization_servers:
+    - https://account.izotope.com
+    - https://shopify.com/authentication/73782919339
+  source: well-known/izotope-oauth-protected-resource.json
+agent_identity:
+  mechanism: UCP agent profile
+  parameter: meta.ucp-agent.profile
+  required: true
+  description: >-
+    The MCP tools do not take a bearer token for read operations; instead every
+    tool call must carry a `meta.ucp-agent.profile` URI identifying the calling
+    agent. Omitting it returns JSON-RPC error -32001 (invalid_profile_url).
+    Buyer payment is authorized out-of-band and requires contemporaneous human
+    approval per iZotope's own llms.txt.
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+    - {url: 'https://www.izotope.com/.well-known/openid-configuration', status: 200}
+    - {url: 'https://www.izotope.com/.well-known/oauth-protected-resource', status: 200}
+    - {url: 'https://account.izotope.com/authentication/.well-known/jwks.json', status: 200}

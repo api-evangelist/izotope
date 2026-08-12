@@ -1,0 +1,116 @@
+generated: '2026-08-12'
+method: searched
+status: published
+source: https://www.izotope.com/api/ucp/mcp
+discovery:
+  llms_txt: https://www.izotope.com/llms.txt
+  agents_md: https://www.izotope.com/agents.md
+  ucp_profile: https://www.izotope.com/.well-known/ucp
+ownership_note: >-
+  The MCP endpoint is served on iZotope's own host (www.izotope.com) and the
+  UCP merchant profile behind it names iZotope as the merchant
+  (Google Pay merchant_name "iZotope", merchant_origin www.izotope.com,
+  Shopify shop id 73782919339). The implementation is Shopify's Universal
+  Commerce Protocol server — iZotope is the tenant, not the author of the
+  tool contract. It is a real, publicly reachable agent surface on the
+  provider's domain and is recorded as such.
+server:
+  name: universal-commerce
+  version: 0.1.0
+  transport: http
+  url: https://www.izotope.com/api/ucp/mcp
+  method: POST
+  content_type: application/json
+  accept: application/json, text/event-stream
+  authentication: none (anonymous tools/list and catalog reads; checkout requires buyer approval)
+  mcp_protocol_version: '2024-11-05'
+  ucp_api_version: '2026-04-08'
+  server_capabilities:
+    tools: {listChanged: true}
+    prompts: {listChanged: true}
+    resources: {listChanged: true}
+    logging: {}
+  alternate_endpoint: https://izotope-prod.myshopify.com/api/ucp/mcp
+schema:
+  file: izotope-mcp-tools.json
+  note: >-
+    Verbatim `tools/list` result captured 2026-08-12 — 13 tools, each with a
+    real JSON Schema 2020-12 inputSchema. Not derived, not guessed.
+  openrpc: https://ucp.dev/2026-04-08/services/shopping/mcp.openrpc.json
+  openrpc_note: >-
+    The tool contract is specified upstream by ucp.dev (third-party), not by
+    iZotope; it is referenced here, not saved into openapi/ as an iZotope spec.
+tool_count: 13
+tools:
+  - name: search_catalog
+    category: catalog
+    description: Search for products from the online store, hosted on Shopify.
+  - name: lookup_catalog
+    category: catalog
+    description: Look up multiple products or variants by identifier.
+  - name: get_product
+    category: catalog
+    description: Retrieve complete product detail by identifier.
+  - name: create_cart
+    category: cart
+    description: Creates a new cart.
+  - name: get_cart
+    category: cart
+    description: Get the cart contents.
+  - name: update_cart
+    category: cart
+    description: Perform updates to a cart.
+  - name: cancel_cart
+    category: cart
+    description: Cancels a cart.
+  - name: create_checkout
+    category: checkout
+    description: Creates a checkout; returns line items, totals, discounts and taxes.
+  - name: get_checkout
+    category: checkout
+    description: Returns details about the checkout, including line items, totals, discounts and taxes.
+  - name: update_checkout
+    category: checkout
+    description: Updates a checkout (shipping address, shipping method, buyer details).
+  - name: complete_checkout
+    category: checkout
+    description: Completes a checkout and returns order ID and Thank You Page URL. Requires explicit buyer approval.
+  - name: cancel_checkout
+    category: checkout
+    description: Cancels a checkout.
+  - name: get_order
+    category: order
+    description: Get the details of an order.
+common_input:
+  meta.ucp-agent.profile:
+    required: true
+    description: >-
+      Every tool requires meta.ucp-agent.profile — a URI identifying the calling
+      agent. Calls without it fail UCP discovery (observed error -32001
+      invalid_profile_url), so anonymous tools/list works but tool invocation
+      requires an agent profile URI.
+capabilities_advertised:
+  - dev.ucp.shopping.catalog.search
+  - dev.ucp.shopping.catalog.lookup
+  - dev.ucp.shopping.cart
+  - dev.ucp.shopping.checkout
+  - dev.ucp.shopping.fulfillment
+  - dev.ucp.shopping.discount
+payment_handlers:
+  - com.google.pay
+  - dev.shopify.card
+crosswalk: null
+crosswalk_note: >-
+  No tool crosswalk emitted: iZotope publishes no OpenAPI and no GraphQL of its
+  own, so there is nothing to bind these tools to. The read-only storefront JSON
+  endpoints documented in llms.txt (/products.json, /collections/{handle}/products.json)
+  overlap the catalog tools but are Shopify platform routes, not an iZotope contract.
+x-evidence:
+  fetched: '2026-08-12'
+  url: https://www.izotope.com/api/ucp/mcp
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  response_headers_observed:
+    - x-shopify-ucp-mcp-api-version: '2026-04-08'
+    - shopify-complexity-score: '28'
+    - powered-by: Shopify

@@ -12,30 +12,36 @@ description: >-
   Production Suite bundle. iZotope's assistive technologies analyze incoming
   audio and propose starting-point chains, EQ curves, dynamics settings, and
   spectral repairs — historically among the first widely adopted AI features in
-  the professional audio plugin market. iZotope was acquired by Native
-  Instruments in 2024 and now sits inside Soundwide, the Francisco Partners-
-  backed group that also includes Native Instruments, Plugin Alliance, Brainworx,
-  iZotope, and others. Distribution is via desktop plugin formats (VST3,
-  AudioUnit, AAX) for DAWs such as Pro Tools, Logic, Ableton Live, Cubase,
-  Studio One, and Reaper; there is no public REST/HTTP developer API or SaaS
-  developer platform. iZotope does license its DSP and ML-based audio
-  algorithms to OEM partners as embedded SDKs (historically delivered to
-  partners like Sony, Adobe, and Microsoft) and ships a small set of public
-  GitHub repositories that are primarily internal C++/Lua tooling, embedded
-  Linux Yocto layers for iZotope hardware, and accompanying code for academic
-  audio research papers rather than a developer API surface.
+  the professional audio plugin market. iZotope announced on 2 July 2026 that it
+  is joining Boris FX, leaving the Native Instruments / Soundwide group it had
+  belonged to since 2024; it now sits in the Boris FX Pro Audio division
+  alongside Sound Forge, Acid Pro, Sequoia, Samplitude and CrumplePop. Product
+  distribution is via desktop plugin formats (VST3, AudioUnit, AAX) for DAWs
+  such as Pro Tools, Logic, Ableton Live, Cubase, Studio One, and Reaper.
+  iZotope publishes no OpenAPI and runs no developer platform for its DSP or
+  machine-learning audio algorithms — those are licensed to OEM partners as
+  contract-gated embedded SDKs. What it does operate is a real, publicly
+  reachable AGENT COMMERCE surface on its own domain: an anonymous Model
+  Context Protocol endpoint at https://www.izotope.com/api/ucp/mcp implementing
+  the Universal Commerce Protocol (UCP 2026-04-08) with 13 catalog, cart,
+  checkout and order tools carrying real JSON Schema 2020-12 input contracts,
+  discoverable through /llms.txt, /agents.md and /.well-known/ucp, with OAuth
+  2.0 / OpenID Connect customer accounts at account.izotope.com. The commerce
+  API is the storefront for the software, not a product in its own right.
 type: Index
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: free
+  onboarding: none-required
   trial: false
-  try_now: false
-  public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  try_now: true
+  public: true
+  label: Public
+  confidence: high
+  source:
+    - https://www.izotope.com/api/ucp/mcp
+    - https://www.izotope.com/llms.txt
+  generated: '2026-08-12'
+  method: probed
 position: Provider
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/izotope.png
@@ -56,20 +62,130 @@ tags:
   - AI Audio
   - Machine Learning Audio
   - Vocal Processing
-  - Native Instruments
-  - Soundwide
+  - Agent Commerce
+  - Universal Commerce Protocol
+  - Model Context Protocol
+  - Ecommerce
+  - Boris FX
 url: https://raw.githubusercontent.com/api-evangelist/izotope/refs/heads/main/apis.yml
 created: '2026-05-25'
-modified: '2026-05-25'
+modified: '2026-08-12'
 specificationVersion: '0.20'
-apis: []
+apis:
+  - name: iZotope Commerce Agent API (UCP / MCP)
+    description: >-
+      iZotope's agent-facing commerce API — an anonymous JSON-RPC 2.0 Model
+      Context Protocol endpoint served on iZotope's own host implementing the
+      Universal Commerce Protocol 2026-04-08. Thirteen tools cover catalog
+      search and lookup, product detail, cart create/read/update/cancel,
+      checkout create/read/update/complete/cancel, and order read. Every tool
+      carries a real JSON Schema 2020-12 inputSchema; every call must identify
+      the calling agent via meta.ucp-agent.profile; complete_checkout requires
+      meta.idempotency-key and, per iZotope's own published rules, explicit
+      contemporaneous buyer approval. Discoverable from /llms.txt, /agents.md
+      and /.well-known/ucp. No key, no account, no plan.
+    humanURL: https://www.izotope.com/agents.md
+    baseURL: https://www.izotope.com/api/ucp/mcp
+    tags:
+      - Agent Commerce
+      - Model Context Protocol
+      - Universal Commerce Protocol
+      - Ecommerce
+      - Checkout
+    properties:
+      - type: MCPServer
+        url: mcp/izotope-mcp.yml
+      - type: LLMsTxt
+        url: llms/izotope-llms.txt
+      - type: Documentation
+        url: https://www.izotope.com/agents.md
+      - type: Authentication
+        url: authentication/izotope-authentication.yml
+      - type: Conventions
+        url: conventions/izotope-conventions.yml
+      - type: Idempotency
+        url: conventions/izotope-conventions.yml
+      - type: RateLimits
+        url: rate-limits/izotope-rate-limits.yml
+      - type: ErrorCatalog
+        url: errors/izotope-problem-types.yml
+      - type: DataModel
+        url: data-model/izotope-data-model.yml
+      - type: AgentSkill
+        url: skills/_index.yml
+  - name: iZotope Storefront Product JSON
+    description: >-
+      The read-only storefront endpoints iZotope documents for agents in its own
+      llms.txt — product and collection JSON, product pages by handle, search,
+      and the sitemap. No authentication, no key. Machine-readable product and
+      price data for the full iZotope plugin catalogue (RX, Ozone, Neutron,
+      Nectar, Trash, Audiolens and the Music Production Suite bundles).
+    humanURL: https://www.izotope.com/llms.txt
+    baseURL: https://www.izotope.com
+    tags:
+      - Ecommerce
+      - Product Catalog
+      - Pricing
+    properties:
+      - type: LLMsTxt
+        url: llms/izotope-llms.txt
+      - type: Plans
+        url: plans/izotope-plans-pricing.yml
+      - type: Documentation
+        url: https://www.izotope.com/llms.txt
 common:
   - type: DomainSecurity
     url: security/izotope-domain-security.yml
+  - type: MCPServer
+    url: mcp/izotope-mcp.yml
+  - type: LLMsTxt
+    url: llms/izotope-llms.txt
+  - type: WellKnown
+    url: well-known/izotope-well-known.yml
+  - type: Authentication
+    url: authentication/izotope-authentication.yml
+  - type: OAuthScopes
+    url: scopes/izotope-scopes.yml
+  - type: Conventions
+    url: conventions/izotope-conventions.yml
+  - type: Idempotency
+    url: conventions/izotope-conventions.yml
+  - type: ErrorCatalog
+    url: errors/izotope-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/izotope-rate-limits.yml
+  - type: Plans
+    url: plans/izotope-plans-pricing.yml
+  - type: Lifecycle
+    url: lifecycle/izotope-lifecycle.yml
+  - type: Conformance
+    url: conformance/izotope-conformance.yml
+  - type: DataModel
+    url: data-model/izotope-data-model.yml
+  - type: AgenticAccess
+    url: agentic-access/izotope-agentic-access.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Packages
+    url: packages/izotope-packages.yml
   - type: Website
     url: https://www.izotope.com
+  - type: Documentation
+    url: https://www.izotope.com/agents.md
   - type: Products
     url: https://www.izotope.com/en/products.html
+  - type: Pricing
+    url: https://www.izotope.com/en/shop.html
+  - type: SignUp
+    url: https://www.izotope.com/account/register
+  - type: Login
+    url: https://www.izotope.com/account/login
+  - type: TermsOfService
+    url: https://www.izotope.com/policies/terms-of-service
+  - type: PrivacyPolicy
+    url: https://www.izotope.com/policies/privacy-policy
+  - type: RefundPolicy
+    url: https://www.izotope.com/policies/refund-policy
   - type: RX
     url: https://www.izotope.com/en/products/rx.html
   - type: Ozone
@@ -83,7 +199,7 @@ common:
   - type: Learn
     url: https://www.izotope.com/en/learn.html
   - type: Blog
-    url: https://www.izotope.com/en/learn/blog.html
+    url: https://www.izotope.com/community/blog
   - type: Support
     url: https://support.izotope.com/hc/en-us
   - type: Contact
@@ -91,10 +207,8 @@ common:
   - type: About
     url: https://www.izotope.com/en/about-us.html
   - type: ParentCompany
-    url: https://www.native-instruments.com
-  - type: GroupOwner
-    url: https://www.soundwide.com
-  - type: GitHub
+    url: https://www.borisfx.com
+  - type: GitHubOrganization
     url: https://github.com/izotope
   - type: YouTube
     url: https://www.youtube.com/@izotopeinc
@@ -103,3 +217,8 @@ common:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 23
+  pass: local-v1

@@ -1,0 +1,81 @@
+generated: '2026-08-12'
+method: probed
+source: live probes of izotope.com discovery documents and the UCP MCP endpoint
+note: >-
+  Assertions below are grounded only in documents fetched from iZotope's own
+  hosts on 2026-08-12. iZotope publishes no OpenAPI, no compliance program and
+  no certifications page, so no Compliance pointer is emitted.
+standards:
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    version: '2024-11-05'
+    evidence: >-
+      initialize returned serverInfo universal-commerce 0.1.0 with
+      protocolVersion 2024-11-05 and tools/prompts/resources/logging capabilities
+      at https://www.izotope.com/api/ucp/mcp
+  - id: ucp
+    name: Universal Commerce Protocol
+    conforms: true
+    version: '2026-04-08'
+    also_supported: ['2026-01-23']
+    evidence: >-
+      /.well-known/ucp returns a merchant profile advertising dev.ucp.shopping
+      services and the checkout/cart/fulfillment/discount capabilities;
+      response header x-shopify-ucp-mcp-api-version 2026-04-08
+  - id: jsonrpc-2.0
+    name: JSON-RPC 2.0
+    conforms: true
+    evidence: all MCP responses carry jsonrpc "2.0" with id and result/error members
+  - id: json-schema-2020-12
+    name: JSON Schema draft 2020-12
+    conforms: true
+    evidence: >-
+      every tool inputSchema in mcp/izotope-mcp-tools.json declares
+      $schema https://json-schema.org/draft/2020-12/schema
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: true
+    evidence: authorization_code + refresh_token grants published at /.well-known/oauth-authorization-server
+  - id: oidc
+    name: OpenID Connect Discovery 1.0
+    conforms: true
+    evidence: /.well-known/openid-configuration returns issuer, jwks_uri, claims_supported, RS256
+  - id: rfc8414
+    name: OAuth 2.0 Authorization Server Metadata
+    conforms: true
+    evidence: /.well-known/oauth-authorization-server returns 200 with authorization/token endpoints
+  - id: rfc9728
+    name: OAuth 2.0 Protected Resource Metadata
+    conforms: true
+    evidence: /.well-known/oauth-protected-resource returns resource + authorization_servers
+  - id: rfc7636
+    name: PKCE
+    conforms: true
+    evidence: code_challenge_methods_supported ["S256"]
+  - id: llmstxt
+    name: llms.txt
+    conforms: true
+    evidence: https://www.izotope.com/llms.txt returns 200 text/markdown with agent instructions
+  - id: rfc9116
+    name: security.txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on both izotope.com and www.izotope.com
+  - id: rfc9457
+    name: Problem Details for HTTP APIs
+    conforms: false
+    evidence: errors are JSON-RPC error objects, not application/problem+json
+  - id: a2a
+    name: A2A Agent Card
+    conforms: false
+    evidence: /.well-known/agent-card.json and /.well-known/agent.json both 404 on all iZotope hosts
+  - id: openapi
+    name: OpenAPI
+    conforms: false
+    evidence: no OpenAPI served on any iZotope host; the UCP tool contract is specified upstream at ucp.dev as OpenRPC
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: no event, streaming or webhook surface published by iZotope
+x-evidence:
+  fetched: '2026-08-12'

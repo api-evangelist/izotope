@@ -1,0 +1,20 @@
+generated: '2026-08-12'
+method: generated
+source: mcp/izotope-mcp-tools.json
+note: >-
+  Grounded in the 13 tool names and inputSchemas captured live from
+  https://www.izotope.com/api/ucp/mcp on 2026-08-12. iZotope publishes no
+  OpenAPI, so operations are verified MCP tool names rather than operationIds.
+  No tool, field, or error code in these skills is invented.
+skills:
+  - file: izotope-find-and-price-plugins.md
+    name: Find and price iZotope plugins
+    api: mcp/izotope-mcp.yml
+    operations: [search_catalog, lookup_catalog, get_product]
+    consequence: read
+  - file: izotope-buy-a-plugin.md
+    name: Buy an iZotope plugin on the buyer's behalf
+    api: mcp/izotope-mcp.yml
+    operations: [create_cart, update_cart, get_cart, create_checkout, update_checkout, get_checkout, complete_checkout, cancel_checkout, get_order]
+    consequence: physical
+    human_in_the_loop: required

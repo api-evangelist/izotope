@@ -1,0 +1,62 @@
+generated: '2026-08-12'
+method: probed
+source: https://www.izotope.com/.well-known/ucp, https://www.izotope.com/api/ucp/mcp
+note: >-
+  Versioning is real and dated; everything else in the operational-transparency
+  set is genuinely absent. No status page, no deprecation policy, no SLA and no
+  changelog were found on any iZotope host, so no StatusPage or Deprecation
+  pointer is emitted.
+versioning:
+  scheme: dated (calendar) protocol versions
+  current: '2026-04-08'
+  supported: ['2026-04-08', '2026-01-23']
+  negotiation: >-
+    Version-pinned profiles are published at /.well-known/ucp/{version};
+    the served version is echoed on every response as
+    x-shopify-ucp-mcp-api-version.
+  response_header: x-shopify-ucp-mcp-api-version
+  discovery: https://www.izotope.com/.well-known/ucp
+  mcp_protocol_version: '2024-11-05'
+  spec_owner: >-
+    The version train is defined upstream by the Universal Commerce Protocol
+    (ucp.dev) and implemented by Shopify; iZotope adopts it as a tenant rather
+    than publishing its own versioning policy.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation or sunset policy published by iZotope. The older UCP version
+    2026-01-23 is still served with no announced retirement date.
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  probed:
+    - {url: 'https://status.izotope.com', status: 'DNS does not resolve'}
+    - {url: 'https://www.izotope.com/pages/status', status: 404}
+changelog:
+  url: null
+  note: >-
+    iZotope publishes product release notes inside its Zendesk help centre,
+    which returns 403 to unauthenticated automated requests; no dated,
+    machine-readable changelog for the commerce/agent surface exists.
+corporate_lifecycle:
+  ownership_change:
+    date: '2026-07-02'
+    from: Native Instruments / Soundwide
+    to: Boris FX
+    announcement: https://www.izotope.com/en/learn/blog.html
+    note: >-
+      iZotope announced on 2026-07-02 that it is joining Boris FX, leaving the
+      Native Instruments group. Products, licenses and subscriptions are stated
+      to be honored unchanged. Recorded here because it is the only dated
+      lifecycle event iZotope published in this window.
+deprecated_operations: []
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+    - {url: 'https://www.izotope.com/.well-known/ucp', status: 200}
+    - {url: 'https://www.izotope.com/.well-known/ucp/2026-04-08', status: 200}
+    - {url: 'https://www.izotope.com/pages/status', status: 404}

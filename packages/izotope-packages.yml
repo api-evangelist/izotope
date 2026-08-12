@@ -1,0 +1,37 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  npm registry search, PyPI, api.github.com/orgs/izotope, and
+  https://www.izotope.com/llms.txt
+note: >-
+  iZotope ships no first-party client library for any of its public surfaces.
+  Searched npm, PyPI and the iZotope GitHub org; none of the 21 public repos in
+  github.com/iZotope is a client SDK — they are internal C++/Lua tooling,
+  embedded-Linux Yocto layers and forks for iZotope hardware, plus code
+  accompanying academic audio papers. The npm hits for "izotope" are
+  third-party and one is a malware-shaped "crack" package; none is first-party.
+  The UCP/MCP commerce endpoint is consumed with a generic MCP client, not an
+  iZotope library. Recorded as a verified zero, not an unchecked gap.
+package_count: 0
+official_package_count: 0
+packages: []
+registries_checked:
+  - {registry: npm, query: izotope, first_party_hits: 0, checked: '2026-08-12'}
+  - {registry: pypi, package: izotope, status: 404, checked: '2026-08-12'}
+  - {registry: github, org: iZotope, public_repos: 21, client_libraries: 0, checked: '2026-08-12'}
+github_org:
+  url: https://github.com/izotope
+  name: iZotope Inc.
+  public_repos: 21
+  most_recent_push: '2024-03-26'
+  character: internal tooling, embedded Linux (Yocto/BitBake) layers, upstream forks, research paper code
+  note: >-
+    No repository has been pushed to since March 2024, and none exposes a
+    consumable API client. The org is a publishing surface for engineering
+    artifacts, not a developer platform.
+oem_sdk:
+  note: >-
+    iZotope licenses its DSP and machine-learning audio algorithms to OEM
+    partners as embedded SDKs, but those are commercial, contract-gated
+    deliverables with no public registry presence, no public documentation and
+    no public download. Not catalogued as a package because nothing public exists.

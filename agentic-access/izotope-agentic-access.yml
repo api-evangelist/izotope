@@ -1,0 +1,120 @@
+generated: '2026-08-12'
+method: generated
+source: mcp/izotope-mcp-tools.json, https://www.izotope.com/llms.txt
+note: >-
+  A recommended x-agentic-access execution contract per MCP tool, classified
+  from the live tool set at https://www.izotope.com/api/ucp/mcp. This is a
+  governance starting point produced by API Evangelist, not a claim iZotope
+  publishes — with one exception: the human-in-the-loop requirement on
+  complete_checkout is iZotope's own published rule ("Checkout requires human
+  approval. Agents must not complete payment without explicit buyer consent."),
+  so it is recorded as provider-stated rather than recommended.
+audience: null
+surface: https://www.izotope.com/api/ucp/mcp
+summary:
+  operations: 13
+  by_action_class: {connected: 4, acting: 9}
+  by_consequence: {read: 4, write: 8, physical: 1}
+  human_in_the_loop: 1
+  provider_stated_controls: 1
+operations:
+  - operation: search_catalog
+    action_class: connected
+    consequence: read
+    scope: catalog:read
+    token: {ttl_seconds: 3600}
+    audit: optional
+  - operation: lookup_catalog
+    action_class: connected
+    consequence: read
+    scope: catalog:read
+    token: {ttl_seconds: 3600}
+    audit: optional
+  - operation: get_product
+    action_class: connected
+    consequence: read
+    scope: catalog:read
+    token: {ttl_seconds: 3600}
+    audit: optional
+  - operation: get_cart
+    action_class: connected
+    consequence: read
+    scope: cart:read
+    token: {ttl_seconds: 3600}
+    audit: optional
+  - operation: create_cart
+    action_class: acting
+    consequence: write
+    scope: cart:write
+    token: {ttl_seconds: 900}
+    audit: required
+  - operation: update_cart
+    action_class: acting
+    consequence: write
+    scope: cart:write
+    token: {ttl_seconds: 900}
+    audit: required
+  - operation: cancel_cart
+    action_class: acting
+    consequence: write
+    scope: cart:write
+    token: {ttl_seconds: 900}
+    audit: required
+  - operation: create_checkout
+    action_class: acting
+    consequence: write
+    scope: checkout:write
+    token: {ttl_seconds: 900}
+    audit: required
+    note: constructs a purchase intent but takes no payment
+  - operation: get_checkout
+    action_class: acting
+    consequence: write
+    scope: checkout:read
+    token: {ttl_seconds: 900}
+    audit: required
+    note: >-
+      classified acting rather than connected because the checkout object
+      carries buyer PII and payment instrument display data
+  - operation: update_checkout
+    action_class: acting
+    consequence: write
+    scope: checkout:write
+    token: {ttl_seconds: 900}
+    audit: required
+    note: accepts buyer email/phone, shipping destination and discount codes
+  - operation: cancel_checkout
+    action_class: acting
+    consequence: write
+    scope: checkout:write
+    token: {ttl_seconds: 900}
+    audit: required
+  - operation: get_order
+    action_class: acting
+    consequence: write
+    scope: order:read
+    token: {ttl_seconds: 900}
+    audit: required
+    note: returns a completed order including buyer and fulfillment detail
+  - operation: complete_checkout
+    action_class: acting
+    consequence: physical
+    scope: checkout:complete
+    token: {ttl_seconds: 300, exchange: true, purpose_required: true}
+    human_in_the_loop: required
+    human_in_the_loop_source: provider-stated
+    idempotency: {required: true, field: meta.idempotency-key}
+    audit: required
+    note: >-
+      Money moves and goods are licensed. iZotope's own llms.txt requires
+      contemporaneous buyer approval and directs agents that cannot obtain it
+      to route the purchase through Shop Pay instead of completing here.
+provider_stated_rules:
+  - rule: Checkout requires human approval; agents must not complete payment without explicit buyer consent.
+    source: https://www.izotope.com/llms.txt
+  - rule: Respect rate limits; the MCP endpoint is rate-limited per IP, back off on 429.
+    source: https://www.izotope.com/llms.txt
+  - rule: Pass context.address_country and context.currency for accurate pricing and availability.
+    source: https://www.izotope.com/llms.txt
+  - rule: Every tool call must identify the calling agent via meta.ucp-agent.profile.
+    source: mcp/izotope-mcp-tools.json

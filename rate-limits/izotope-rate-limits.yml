@@ -1,0 +1,43 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.izotope.com/llms.txt
+note: >-
+  iZotope documents that its agent commerce endpoint is rate limited, but
+  publishes no numeric limit, no window and no rate-limit response headers.
+  The only runtime signal an agent gets is the 429 status itself. Recorded as
+  one documented-but-unquantified limit rather than an invented number.
+limit_count: 1
+limits:
+  - name: ucp-mcp-per-ip
+    scope: per-ip
+    endpoint: https://www.izotope.com/api/ucp/mcp
+    window: not published
+    limit: not published
+    burst: not published
+    status_on_exhaustion: 429
+    retry_after_header: not published
+    documented_text: >-
+      "Respect rate limits. The MCP endpoint is rate-limited per IP.
+      Back off on 429 responses."
+    source: https://www.izotope.com/llms.txt
+response_headers:
+  rate_limit_headers: []
+  observed_related_headers:
+    - name: shopify-complexity-score
+      observed_value: '28'
+      note: >-
+        Per-request cost score returned on every MCP response. It is a cost
+        signal, not a remaining-quota signal — no limit or reset value is
+        returned alongside it, so an agent cannot compute headroom from it.
+    - name: shopify-complexity-score-v2
+      observed_value: '28'
+    - name: x-request-id
+      note: correlation id for support escalation
+observed:
+  fetched: '2026-08-12'
+  url: https://www.izotope.com/api/ucp/mcp
+  http_status: 200
+  no_ratelimit_headers_present: true
+x-evidence:
+  - {url: 'https://www.izotope.com/llms.txt', status: 200}
+  - {url: 'https://www.izotope.com/api/ucp/mcp', status: 200}

@@ -1,0 +1,106 @@
+generated: '2026-08-12'
+method: probed
+source: mcp/izotope-mcp-tools.json, well-known/izotope-ucp.json, llms/izotope-llms.txt
+note: >-
+  iZotope publishes no OpenAPI. These cross-cutting semantics are read from the
+  live UCP MCP endpoint on iZotope's own host (tool schemas, observed response
+  headers, observed error shapes) and from iZotope's own /llms.txt.
+surface: https://www.izotope.com/api/ucp/mcp
+transport:
+  protocol: JSON-RPC 2.0 over HTTP POST (MCP)
+  content_type: application/json
+  accept: application/json, text/event-stream
+  streaming: SSE supported via Accept negotiation
+authentication:
+  style: >-
+    Anonymous for tools/list, catalog reads, cart and checkout construction.
+    No API key. Every tool call must carry an agent identity URI at
+    meta.ucp-agent.profile; customer-scoped access uses OAuth 2.0 /
+    OpenID Connect at account.izotope.com.
+  detail: authentication/izotope-authentication.yml
+idempotency:
+  supported: true
+  mechanism: request field
+  field: meta.idempotency-key
+  type: string
+  required: true
+  scope: complete_checkout
+  operations: [complete_checkout]
+  evidence: >-
+    mcp/izotope-mcp-tools.json — the complete_checkout inputSchema declares
+    meta.idempotency-key ("An idempotency key for completing the checkout")
+    and lists it in meta.required alongside ucp-agent. It is the payment-
+    completing call, and it is the only operation that requires the key.
+  retention: not published
+  note: >-
+    Idempotency is enforced only on the terminal payment call; cart and
+    checkout mutation tools (create_cart, update_cart, create_checkout,
+    update_checkout) accept no idempotency key and are not idempotent.
+pagination:
+  style: cursor
+  detail: >-
+    search_catalog accepts a catalog.limit and a cursor for paging the result
+    set. The read-only storefront JSON routes documented in llms.txt
+    (/products.json, /collections/{handle}/products.json) use Shopify's
+    page/limit query parameters.
+  params: [limit, cursor]
+field_expansion:
+  supported: false
+metadata:
+  supported: true
+  field: meta
+  detail: >-
+    Every tool takes a top-level `meta` object carrying agent identity
+    (ucp-agent.profile) and, on complete_checkout, the idempotency key.
+buyer_context:
+  supported: true
+  field: catalog.context
+  fields: [address_country, address_region, postal_code, language, currency, intent]
+  detail: >-
+    iZotope's llms.txt instructs agents to pass context.address_country and
+    context.currency for accurate pricing and availability.
+money_representation:
+  style: minor units + ISO 4217 code
+  example: '{"amount": 2500, "currency": "USD"} is $25.00'
+  note: >-
+    Published in every checkout tool description; agents must divide by 100 for
+    two-decimal currencies before quoting a price to a buyer.
+request_tracing:
+  header: x-request-id
+  observed: true
+  example_value_shape: uuid + '-' + epoch
+  additional_headers:
+    - shopify-complexity-score
+    - shopify-complexity-score-v2
+versioning:
+  scheme: dated protocol versions
+  current: '2026-04-08'
+  supported: ['2026-04-08', '2026-01-23']
+  response_header: x-shopify-ucp-mcp-api-version
+  discovery: https://www.izotope.com/.well-known/ucp
+  mcp_protocol_version: '2024-11-05'
+  detail: lifecycle/izotope-lifecycle.yml
+error_envelope:
+  format: JSON-RPC 2.0 error object
+  shape: '{"jsonrpc":"2.0","id":<n>,"error":{"code":<int>,"message":<string>,"data":{...}}}'
+  data_fields: [code, content, continue_url]
+  problem_json: false
+  detail: errors/izotope-problem-types.yml
+rate_limiting:
+  documented: true
+  signal: HTTP 429
+  headers_published: none
+  detail: rate-limits/izotope-rate-limits.yml
+human_in_the_loop:
+  required_for: [complete_checkout]
+  rule: >-
+    iZotope's llms.txt states "Checkout requires human approval. Agents must not
+    complete payment without explicit buyer consent." Agents that cannot obtain
+    contemporaneous buyer approval are directed to route through Shop Pay.
+  detail: agentic-access/izotope-agentic-access.yml
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+    - {url: 'https://www.izotope.com/api/ucp/mcp', status: 200}
+    - {url: 'https://www.izotope.com/llms.txt', status: 200}
+    - {url: 'https://www.izotope.com/.well-known/ucp', status: 200}

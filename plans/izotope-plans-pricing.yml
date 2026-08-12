@@ -1,0 +1,33 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.izotope.com/en/shop.html
+note: >-
+  iZotope sells audio software licences, not API access. There are no API plans,
+  no developer tiers, no quotas and no overage pricing — the UCP/MCP commerce
+  endpoint is free and anonymous to call, because its purpose is to sell the
+  software, not to be the product. plan_count is 0 by fact, not by omission.
+plan_count: 0
+plans: []
+api_pricing:
+  model: none
+  free_to_call: true
+  detail: >-
+    https://www.izotope.com/api/ucp/mcp accepts anonymous tools/list, catalog,
+    cart and checkout-construction calls with no key, no account and no billing
+    relationship. Only the purchase itself costs money, and that is the buyer's
+    product purchase.
+product_pricing:
+  note: >-
+    Product (not API) pricing is published per-product on the storefront and is
+    machine-readable — the storefront exposes prices as JSON without auth.
+  human_url: https://www.izotope.com/en/shop.html
+  machine_readable:
+    - {url: 'https://www.izotope.com/products.json', status: 200, content_type: application/json}
+    - {url: 'https://www.izotope.com/collections/all/products.json', status: 200, content_type: application/json}
+    - {url: 'https://www.izotope.com/api/ucp/mcp', tool: search_catalog, note: prices returned in ISO 4217 minor units}
+  currency_handling: integer minor units paired with an ISO 4217 currency code
+x-evidence:
+  fetched: '2026-08-12'
+  urls:
+    - {url: 'https://www.izotope.com/en/shop.html', status: 200}
+    - {url: 'https://www.izotope.com/products.json', status: 200}

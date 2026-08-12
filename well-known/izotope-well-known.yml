@@ -1,0 +1,86 @@
+generated: '2026-08-12'
+method: searched
+source: live GET probes of /.well-known/* on izotope.com hosts
+note: >-
+  iZotope's public web surface is a Shopify storefront on its own domains
+  (www.izotope.com, account.izotope.com). The OAuth/OIDC discovery documents
+  returned here are served BY those iZotope hosts and are scoped to iZotope's
+  own shop (issuer shopify.com/authentication/73782919339; all endpoints on
+  account.izotope.com) — the platform is Shopify, the tenant is iZotope. The
+  /.well-known/ucp document is iZotope's own Universal Commerce Protocol
+  merchant profile and names iZotope as the merchant (Google Pay
+  merchant_name "iZotope", merchant_origin www.izotope.com). No security.txt,
+  no api-catalog, no ai-plugin.json and no A2A agent card are served.
+hosts:
+  - host: https://www.izotope.com
+    documents:
+      - path: /.well-known/ucp
+        status: 200
+        content_type: application/json
+        file: izotope-ucp.json
+        note: UCP merchant profile — version 2026-04-08 (also serves 2026-01-23)
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: application/json
+        file: izotope-openid-configuration.json
+        note: OIDC discovery for iZotope customer accounts (Shopify-hosted)
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: izotope-oauth-authorization-server.json
+        note: RFC 8414 — identical body to the OIDC discovery document
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: application/json
+        file: izotope-oauth-protected-resource.json
+        note: >-
+          RFC 9728 — declares resource https://www.izotope.com with
+          authorization_servers [account.izotope.com, shopify.com/authentication/73782919339]
+      - path: /.well-known/ucp/2026-04-08
+        status: 200
+        content_type: application/json
+        note: version-pinned UCP profile (not saved separately — same shape as /.well-known/ucp)
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://account.izotope.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: application/json
+        note: same document as on www.izotope.com
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+      - path: /authentication/.well-known/jwks.json
+        status: 200
+        content_type: application/json
+        note: Ed25519 signing keys — not saved (rotating key material)
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://izotope.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+non_well_known_agent_documents:
+  - path: /llms.txt
+    status: 200
+    content_type: text/markdown
+    file: ../llms/izotope-llms.txt
+  - path: /agents.md
+    status: 200
+    content_type: text/markdown
+    file: ../llms/izotope-agents.md
+x-evidence:
+  fetched: '2026-08-12'
+  probes: 17
+  hits: 8

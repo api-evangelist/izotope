@@ -1,0 +1,41 @@
+generated: '2026-08-12'
+method: probed
+source: https://www.izotope.com/.well-known/openid-configuration
+note: >-
+  Read from the live OIDC/RFC 8414 discovery documents iZotope serves; there is
+  no OpenAPI to derive from and iZotope publishes no human-readable scope
+  reference page of its own. The scope vocabulary is Shopify's customer-accounts
+  vocabulary as exposed by iZotope's tenant.
+schemes:
+  - name: izotope-customer-accounts
+    source: well-known/izotope-openid-configuration.json
+    issuer: https://shopify.com/authentication/73782919339
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://account.izotope.com/authentication/oauth/authorize
+        tokenUrl: https://account.izotope.com/authentication/oauth/token
+        pkce: S256
+scope_count: 4
+scopes:
+  - scope: openid
+    description: OpenID Connect sign-in; issues an ID token for the customer account.
+    flows: [authorizationCode]
+    sources: [well-known/izotope-openid-configuration.json]
+  - scope: email
+    description: Access to the customer's email address and email_verified claim.
+    flows: [authorizationCode]
+    sources: [well-known/izotope-openid-configuration.json]
+  - scope: 'customer-account-api:full'
+    description: Full access to the customer account API for the signed-in iZotope customer.
+    flows: [authorizationCode]
+    sources: [well-known/izotope-openid-configuration.json]
+  - scope: 'customer-account-mcp-api:full'
+    description: >-
+      Full access to the customer-account MCP API — the authenticated companion
+      to the anonymous UCP commerce MCP endpoint at /api/ucp/mcp.
+    flows: [authorizationCode]
+    sources: [well-known/izotope-openid-configuration.json]
+x-evidence:
+  fetched: '2026-08-12'
+  url: https://www.izotope.com/.well-known/openid-configuration
+  http_status: 200
