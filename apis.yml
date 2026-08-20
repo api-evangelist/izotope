@@ -64,6 +64,28 @@ tags:
   - Vocal Processing
   - Agent Commerce
   - Universal Commerce Protocol
+  - MCP
+  - E-Commerce
+  - Boris FX
+tags_raw:
+  - Audio
+  - Audio Software
+  - Music Production
+  - Mixing
+  - Mastering
+  - Audio Restoration
+  - Audio Repair
+  - Post Production
+  - Plugins
+  - VST
+  - AudioUnit
+  - AAX
+  - DSP
+  - AI Audio
+  - Machine Learning Audio
+  - Vocal Processing
+  - Agent Commerce
+  - Universal Commerce Protocol
   - Model Context Protocol
   - Ecommerce
   - Boris FX
@@ -87,6 +109,12 @@ apis:
     humanURL: https://www.izotope.com/agents.md
     baseURL: https://www.izotope.com/api/ucp/mcp
     tags:
+      - Agent Commerce
+      - MCP
+      - Universal Commerce Protocol
+      - E-Commerce
+      - Checkout
+    tags_raw:
       - Agent Commerce
       - Model Context Protocol
       - Universal Commerce Protocol
@@ -123,6 +151,10 @@ apis:
     humanURL: https://www.izotope.com/llms.txt
     baseURL: https://www.izotope.com
     tags:
+      - E-Commerce
+      - Product Catalog
+      - Pricing
+    tags_raw:
       - Ecommerce
       - Product Catalog
       - Pricing
