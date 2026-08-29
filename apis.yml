@@ -29,6 +29,17 @@ description: >-
   2.0 / OpenID Connect customer accounts at account.izotope.com. The commerce
   API is the storefront for the software, not a product in its own right.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: none-required
