@@ -73,7 +73,7 @@ tags:
   - AI Audio
   - Machine Learning Audio
   - Vocal Processing
-  - Agent Commerce
+  - Agentic Commerce
   - Universal Commerce Protocol
   - MCP
   - E-Commerce
@@ -120,7 +120,7 @@ apis:
     humanURL: https://www.izotope.com/agents.md
     baseURL: https://www.izotope.com/api/ucp/mcp
     tags:
-      - Agent Commerce
+      - Agentic Commerce
       - MCP
       - Universal Commerce Protocol
       - E-Commerce
