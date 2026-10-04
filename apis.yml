@@ -69,7 +69,6 @@ tags:
   - VST
   - AudioUnit
   - AAX
-  - DSP
   - AI Audio
   - Machine Learning Audio
   - Vocal Processing
@@ -78,6 +77,7 @@ tags:
   - MCP
   - E-Commerce
   - Boris FX
+  - Digital Signal Processing
 tags_raw:
   - Audio
   - Audio Software
@@ -91,7 +91,6 @@ tags_raw:
   - VST
   - AudioUnit
   - AAX
-  - DSP
   - AI Audio
   - Machine Learning Audio
   - Vocal Processing
@@ -100,6 +99,7 @@ tags_raw:
   - Model Context Protocol
   - Ecommerce
   - Boris FX
+  - Digital Signal Processing
 url: https://raw.githubusercontent.com/api-evangelist/izotope/refs/heads/main/apis.yml
 created: '2026-05-25'
 modified: '2026-08-12'
@@ -152,6 +152,9 @@ apis:
         url: data-model/izotope-data-model.yml
       - type: AgentSkill
         url: skills/_index.yml
+    x-surface: platform-generated
+    x-platform: shopify
+    x-platform-surface: ucp
   - name: iZotope Storefront Product JSON
     description: >-
       The read-only storefront endpoints iZotope documents for agents in its own
@@ -160,7 +163,6 @@ apis:
       price data for the full iZotope plugin catalogue (RX, Ozone, Neutron,
       Nectar, Trash, Audiolens and the Music Production Suite bundles).
     humanURL: https://www.izotope.com/llms.txt
-    baseURL: https://www.izotope.com
     tags:
       - E-Commerce
       - Product Catalog
@@ -176,6 +178,9 @@ apis:
         url: plans/izotope-plans-pricing.yml
       - type: Documentation
         url: https://www.izotope.com/llms.txt
+    x-surface: platform-generated
+    x-platform: shopify
+    x-platform-surface: storefront-json
 common:
   - type: DomainSecurity
     url: security/izotope-domain-security.yml
@@ -265,3 +270,5 @@ x-enrichment:
   status: enriched
   artifacts_added: 23
   pass: local-v1
+x-tags-removed:
+- DSP
