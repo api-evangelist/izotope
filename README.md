@@ -1,4 +1,4 @@
-# izotope
+# iZotope
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,4 +64,123 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-iZotope — AI-assisted audio repair, mixing, and mastering plugins (RX, Ozone, Neutron, Nectar). Owned by Native Instruments / Soundwide.
+iZotope is a Cambridge, Massachusetts audio software company founded in 2001 that builds professional plugins for music production, audio repair, mixing, and mastering, with deep investments in AI-assisted and machine-learning-driven audio processing. Its flagship products include RX (audio restoration and dialogue repair widely used in film, TV, and podcast post-production), Ozone (mastering suite with Master Assistant), Neutron (mixing suite with Mix Assistant and Track Assistant), Nectar (vocal processing with Vocal Assistant), Tonal Balance Control (cross-session referencing), and the Music Production Suite bundle. iZotope's assistive technologies analyze incoming audio and propose starting-point chains, EQ curves, dynamics settings, and spectral repairs — historically among the first widely adopted AI features in the professional audio plugin market. iZotope announced on 2 July 2026 that it is joining Boris FX, leaving the Native Instruments / Soundwide group it had belonged to since 2024; it now sits in the Boris FX Pro Audio division alongside Sound Forge, Acid Pro, Sequoia, Samplitude and CrumplePop. Product distribution is via desktop plugin formats (VST3, AudioUnit, AAX) for DAWs such as Pro Tools, Logic, Ableton Live, Cubase, Studio One, and Reaper. iZotope publishes no OpenAPI and runs no developer platform for its DSP or machine-learning audio algorithms — those are licensed to OEM partners as contract-gated embedded SDKs. What it does operate is a real, publicly reachable AGENT COMMERCE surface on its own domain: an anonymous Model Context Protocol endpoint at https://www.izotope.com/api/ucp/mcp implementing the Universal Commerce Protocol (UCP 2026-04-08) with 13 catalog, cart, checkout and order tools carrying real JSON Schema 2020-12 input contracts, discoverable through /llms.txt, /agents.md and /.well-known/ucp, with OAuth 2.0 / OpenID Connect customer accounts at account.izotope.com. The commerce API is the storefront for the software, not a product in its own right.
+
+**Areas:** Audio · Audio Software · Music Production · Mixing · Mastering · Audio Restoration · Audio Repair · Post Production · Plugins · VST · AudioUnit · AAX
+
+## iZotope on APIs.io
+
+Everything profiled for iZotope is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/izotope/](https://apis.io/providers/izotope/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [iZotope Commerce Agent API (UCP / MCP)](https://apis.io/apis/izotope/izotope-commerce-agent-api-ucp-mcp/) — iZotope's agent-facing commerce API — an anonymous JSON-RPC 2.0 Model Context Protocol endpoint served on iZotope's own host implementing the Universal…
+- [iZotope Storefront Product JSON](https://apis.io/apis/izotope/izotope-storefront-product-json/) — The read-only storefront endpoints iZotope documents for agents in its own llms.txt — product and collection JSON, product pages by handle, search, and the…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [universal-commerce](https://apis.io/servers/izotope/universal-commerce/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Izotope Agentic Access](https://apis.io/agentic-access/izotope/izotope-agentic-access/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Izotope Authentication](https://apis.io/security/izotope/izotope-authentication/)
+- [Izotope Domain Security](https://apis.io/security/izotope/izotope-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Izotope Scopes](https://apis.io/scopes/izotope/izotope-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Izotope Plans Pricing](https://apis.io/plans/izotope/izotope-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Izotope Rate Limits](https://apis.io/rate-limits/izotope/izotope-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.izotope.com)
+- [Documentation](https://www.izotope.com/agents.md)
+- [Pricing](https://www.izotope.com/en/shop.html)
+- [Sign up](https://www.izotope.com/account/register)
+- [Support](https://support.izotope.com/hc/en-us)
+- [Blog](https://www.izotope.com/community/blog)
+- [Terms of service](https://www.izotope.com/policies/terms-of-service)
+- [Privacy policy](https://www.izotope.com/policies/privacy-policy)
+- [GitHub](https://github.com/izotope)
+
+## API Evangelist rating
+
+**Kin Score 29.8** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.7 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 23.7 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 44.7 |
+
+**Agent readiness 28.8** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | platform (partial credit) |
+
+**Regulatory alignment 34.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/izotope/](https://apis.io/providers/izotope/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for iZotope: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/izotope/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
